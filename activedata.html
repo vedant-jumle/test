@@ -1,190 +1,285 @@
 <html>
-<head>
-	<title>active data</title>
-	<meta charset="utf-8">
-	<style type="text/css">
-		.desBox{
-			border: 2px solid #7c7c7c;
-			border-radius: 6px;
-			overflow: auto;
-			letter-spacing: 1px;
-			line-height: 1.7;
-			word-spacing: 3px;
-			width: 800px;
-			height: 100px;
-			padding:5px;
-		}
-		.titleBox{
-			border: 2px solid #7c7c7c;
-			border-radius: 12px;
-			overflow: auto;
-			letter-spacing: 1px;
-			line-height: 1.7;
-			text-align: left;
-			word-spacing: 3px;
-			width: 800px;
-			height: 50px
-		}
-		.button {
-			box-shadow:inset 0px 1px 0px 0px #ffffff;
-			background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
-			background-color:#ffffff;
-			border-radius:6px;
-			border:1px solid #dcdcdc;
-			display:inline-block;
-			cursor:pointer;
-			color:#666666;
-			font-family:Arial;
-			font-size:15px;
-			font-weight:bold;
-			padding:6px 24px;
-			text-decoration:none;
-			text-shadow:0px 1px 0px #ffffff;
-		}
-		.button:hover {
-			background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
-			background-color:#f6f6f6;
-		}
-		.button:active {
-			position:relative;
-			top:1px;	
-		}
-		.error
-		{
-			font-size: 4pt;
-
-		}
+  <head>
+    <title>active data</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+      .desBox {
+        border: 2px solid #7c7c7c;
+        border-radius: 6px;
+        overflow: auto;
+        letter-spacing: 1px;
+        line-height: 1.7;
+        word-spacing: 3px;
+        width: 800px;
+        height: 100px;
+        padding: 5px;
+      }
+      .titleBox {
+        border: 2px solid #7c7c7c;
+        border-radius: 12px;
+        overflow: auto;
+        letter-spacing: 1px;
+        line-height: 1.7;
+        text-align: left;
+        word-spacing: 3px;
+        width: 800px;
+        height: 50px;
+      }
+      .button {
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+        background-color: #ffffff;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        display: inline-block;
+        cursor: pointer;
+        color: #666666;
+        font-family: Arial;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 6px 24px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+      }
+      .button:hover {
+        background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color: #f6f6f6;
+      }
+      .button:active {
+        position: relative;
+        top: 1px;
+      }
+      .error {
+        font-size: 4pt;
+      }
     </style>
-</head>
-<body>
-	<h1> WELCOME TO VEDANT'S WEBSITE</h1><br>
+  </head>
+  <body>
+    <h1>WELCOME TO VEDANT'S WEBSITE</h1>
+    <hr>
+    <div class= "div_downloads" id="div_downloads">
+      <form>
+        <h3>
+        DOWNLOADS(NOT IMPLEMENTED PLEASE DO NOT USE)
+      </h3>
+      <input type="password" id="auth_download" class="title" placeholder="password"><br><br>
+      <button type = "button" onlick="downloadDatabase()" class="button">
+        DATABSE
+      </button><br><br>
+      <button type = "button" onclick="downloadErrors()" class="button">
+        ERRORS
+      </button>
+      </form>
+      </div>
+    <br />
 
-	<br><hr>
-	<div class = "div_updateData" id = "updateData">
-		<form>
-			<h2>
-				TITLE:<br>
-				<input type="text" name="title" class = "titleBox" id="title"><br>
-				DESCRIPTION:<br>
-				<input type="text" name="des" class = "desBox" id="des"><br>
-				PASSWORD:<br>
-				<input type="password" id="pass" name = pass class="titleBox"><br><br>
+    <br />
+    <hr />
+    <h2>
+      <div class="div_updateData" id="updateData">
+        <form>
+          TITLE:<br />
+          <input type="text" name="title" class="titleBox" id="title" /><br />
+          DESCRIPTION:<br />
+          <input type="text" name="des" class="desBox" id="des" /><br />
+          PASSWORD:<br />
+          <input
+            type="password"
+            id="pass"
+            name="pass"
+            class="titleBox"
+          /><br /><br />
 
-				<input type = "submit" value="update" class="button" onclick="updateValues()"> 
+          <input
+            type="submit"
+            value="update"
+            class="button"
+            onclick="updateValues()"
+          />
+        </form>
+        <p id="error" class="error"></p>
+        <hr />
+        <br />
+        <br />
+        <button type="button" class="button" onclick="resetData()">
+          RESET DATABASE
+        </button>
+        <input
+          type="password"
+          id="reset_auth"
+          class="titleBox"
+          placeholder="password"
+        />
+      </div>
 
-		</form>
-		<p id = error class="error">
+      <button type="button" class="button" onclick="getData()">GET DATA</button>
+      <div class="div_currentData" id="currentData"></div>
+    </h2>
+  </body>
 
-		</p>
-		<hr>
-		<br>
-		<br>
-		<button type = "button" class="button">RESET DATABASE</button>
+  <script>
+    function updateValues() {
+      var error = "";
+      const title = document.getElementById("title").value;
+      const des = document.getElementById("des").value;
+      const pass = document.getElementById("pass").value;
 
-			
+      const data = {
+        pass: pass,
+        title: title,
+        des: des
+      };
 
-	</div>
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      };
 
-	<button type="button" class="button" onclick="getData()">GET DATA</button>
-	<div class = "div_currentData" id="currentData">
+      fetch("/home/api/update/", options)
+        .then(data => data.json())
+        .then(data => {
+          console.log(data.status);
+          console.log(data.timestamp);
 
-	</div>
+          var error = "";
 
-</body>
+          if (data.error) {
+            (error += "server sent an error : "), data.status;
+          } else {
+            error += data.status;
+          }
 
+          document.getElementById("error").innerText = error;
+        });
+    }
 
+    async function getData() {
+      console.log("getting data");
+      const respose = await fetch("/api/get/");
+      var data = await respose.json();
 
-<script>
-	function updateValues()
-	{
-		var error = "";
-		const title = document.getElementById('title').value;
-		const des = document.getElementById('des').value;
-		const pass = document.getElementById('pass').value;
+      if (data.length != 0) {
+        for (var i = 0; i < data.length; i++) {
+          for (var j = i; j < data.length; j++) {
+            if (data[i].timestamp < data[j].timestamp) {
+              var temp = data[i];
+              data[i] = data[j];
+              data[j] = temp;
+            }
+          }
+        }
+        updatePage(data);
+      } else {
+        showError();
+      }
 
-		const data = {
-			"pass" : pass,
-			"title" : title,
-			"des" : des
-		};
-    
+      console.log(data);
+    }
+
+    function updatePage(data) {
+      var div = document.getElementById("currentData");
+      const divTag = '<div class="subdata">';
+      const p = '<p id="p_currentData" class= "p_currentData">';
+      const br = "<br>";
+      const hr = "<hr>";
+      const h4_time = '<h4 class="h4_subdata_time">';
+      const h4_title = '<h4 class="h4_subdata_title">';
+      const h4_des = '<h4 class="h4_subdata_des">';
+      const closeh4 = "</h4>";
+
+      var update = "";
+      for (var i = 0; i < data.length; i++) {
+        update +=
+          divTag +
+          p +
+          h4_time +
+          data[i].timestamp +
+          closeh4 +
+          h4_title +
+          data[i].title +
+          closeh4 +
+          h4_des +
+          data[i].des +
+          closeh4 +
+          br +
+          hr +
+          "</p>" +
+          "</div>";
+      }
+
+      div.innerHTML = update;
+    }
+
+    function showError() {
+      document.getElementById("currentData").innerHTML =
+        '<p id="p_currentData" class= "p_currentData">' +
+        "NO DATA AVAILABLE" +
+        "</p>";
+    }
+
+    async function resetData() {
+      
+      const pass_input = document.getElementById("reset_auth").value;
+      
+      
+      if (pass_input == '') {
+        alert("please enter the password to reset the data");
+      } else {
+        const data = {
+          pass: pass_input
+        };
+
         const options = {
-            method: 'POST', 
-			headers: {'Content-Type' : 'application/json'},
-        	body: JSON.stringify(data)
-		};
-		
-		fetch('/home/api/update/', options).then(data => data.json()).then(data => {
-			console.log(data.status);
-			console.log(data.timestamp);
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        };
+        var api_responce = await fetch("/api/reset/", options);
+        var responce = api_responce.json();
+        
+        alert('status : ', responce.status, ', error : ' , responce.error);
+      }
+    }
+    
+    async function redirectToDownloads()
+    {
+      var responce = await fetch('/home/downloads');
+      var html = await responce;
+    }
+    
+    async function downloadDatabase()
+    {
+      var pass_input = document.getElementById('auth_download').value
+      const data = {
+          pass: pass_input
+        };
 
-			var error = "";
+        const options = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        };
+      var res = await fetch('/api/download/database/', options);
+      var json = await res.json();
+      console.log(json.status);
+    }
+    
+    async function downloadErrors()
+    {
+      var pass_input = document.getElementById('auth_download').value
+      const data = {
+          pass: pass_input
+        };
 
-			if(data.error)
-			{
-				error += 'server sent an error : ' , data.status;
-			}
-			else{
-				error += data.status;
-			}
-
-			document.getElementById('error').innerText = error;
-		});
-		
-	}
-
-	async function getData()
-	{
-		console.log("getting data");
-		const respose = await fetch('/api/get/');
-		var data = await respose.json();
-		
-		if(data.length != 0)
-		{
-			for(var i = 0;i < data.length;i++)
-			{
-				for(var j = i;j < data.length;j++)
-				{
-					if(data[i].timestamp < data[j].timestamp)
-					{
-						var temp = data[i];
-						data[i] = data[j];
-						data[j] = temp;
-					}
-				}
-			}
-			updatePage(data);
-		}else{
-			showError();
-		}
-		
-		
-		console.log(data);
-	}
-
-	function updatePage(data)
-	{
-		var div = document.getElementById('currentData');
-		const divTag = "<div class=\"subdata\">";
-		const p = "<p id=\"p_currentData\" class= \"p_currentData\">";
-		const br = "<br>";
-		const hr = "<hr>";
-		const h4_time = "<h4 class=\"h4_subdata_time\">";
-		const h4_title = "<h4 class=\"h4_subdata_title\">";
-		const h4_des = "<h4 class=\"h4_subdata_des\">";
-		const closeh4 = "</h4>";
-
-		var update = "";
-		for(var i = 0;i < data.length;i++){
-			update += divTag + p + h4_time + data[i].timestamp + closeh4 + h4_title + data[i].title + closeh4 + h4_des + data[i].des + closeh4 + br + hr + "</p>" + "</div>";
-		}
-
-		div.innerHTML = update;
-	}	
-	
-	function showError()
-	{
-		document.getElementById('currentData').innerHTML = "<p id=\"p_currentData\" class= \"p_currentData\">" +"NO DATA AVAILABLE"+ "</p>";
-	}
-</script>
+      const options = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+      };
+      var res = await fetch('/api/download/error/', options);
+      var json = await res.json();
+      console.log(json.status);
+    }
+  </script>
 </html>
