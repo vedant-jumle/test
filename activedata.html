@@ -236,9 +236,9 @@
           body: JSON.stringify(data)
         };
         var api_responce = await fetch("/api/reset/", options);
-        var responce = api_responce.json();
+        //var responce = await api_responce.json();
         
-        alert('status : ', responce.status, ', error : ' , responce.error);
+        alert("done");
       }
     }
     

@@ -136,7 +136,7 @@ app.get('/api/app/get/', (req, res) => {
 app.post('/api/reset/', (req,res) => {
   res.contentType("application/json");
   
-  var response = {};
+  var response;
   var auth = req.body.pass == pass_auth
   if(auth)
     {
@@ -145,14 +145,31 @@ app.post('/api/reset/', (req,res) => {
           {
             response = {
               error : error,
-              status : "failed"
+              status : "failed to clear database.db"
             };
           }
         else
           {
             response = {
               error : 'no error',
-              status : 'number of entries removed : ', numRemoved
+              status : "cleared data"
+            };
+            
+          }
+      });
+      errordb.remove({},{multi:true}, (error, numRemoved) => {
+        if(error)
+          {
+            response = {
+              error : error,
+              status : "failed to clear error.db"
+            };
+          }
+        else
+          {
+            response = {
+              error : 'no error',
+              status : "cleared data"
             };
             
           }
