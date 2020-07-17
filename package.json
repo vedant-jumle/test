@@ -1,0 +1,15 @@
+{
+  "name": "turtle-updates",
+  "version": "1.0.0",
+  "description": "UInformation update backend for 'hello turtle' app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server"
+  },
+  "author": "Vedant Jumle",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nedb": "^1.8.0"
+  }
+}
