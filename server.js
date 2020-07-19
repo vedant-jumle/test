@@ -5,7 +5,9 @@ const path = require('path');
 const Datastore = require('nedb');
 const { RSA_NO_PADDING } = require('constants');
 const { time } = require('console');
+const sha512 = require('js-sha512');
 const pass_auth = 'nicehacks';
+const hash = "B13D59A2EA68B152CFDC5CE44C39E52A61A39DBC91066FBB332071AF33A8EADAAA016CB94E7679F759F42A661FE5C99150C8A0866EC5998E39151E67A9F4611D";
 
 //setup express
 const app = express();
@@ -54,6 +56,10 @@ app.post('/home/api/update/', (req,res) => {
     var status = 0;
     const timestamp = Date.now();
     var auth = req.body.pass == "nicehacks";
+  
+    console.log(sha512(req.body.pass))
+    
+  
     var success = "failed to store values, internal server error";
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     //log incoming data
@@ -129,8 +135,22 @@ app.get('/api/get/', (req,res) => {
 
 //dedicated route for the android and ios apps
 app.get('/api/app/get/', (req, res) => {
-
+  res.contentType('application/json');
+  console.log('mobile application with ip : ', req.headers['x-forwarded-for'] || req.connection.remoteAddress, ' requested for database.db');
+  
+  database.find({}, (error, data) => {
+    if(error)
+      {
+        res.send({values : [{error : error}]})
+      }
+    else
+      {
+        var responce = {value : data};
+        res.send(responce);
+      }
+  });
 });
+
 
 //route for reseting the database
 app.post('/api/reset/', (req,res) => {
@@ -154,28 +174,12 @@ app.post('/api/reset/', (req,res) => {
               error : 'no error',
               status : "cleared data"
             };
-            
+            console.log("cleared");
           }
       });
-      errordb.remove({},{multi:true}, (error, numRemoved) => {
-        if(error)
-          {
-            response = {
-              error : error,
-              status : "failed to clear error.db"
-            };
-          }
-        else
-          {
-            response = {
-              error : 'no error',
-              status : "cleared data"
-            };
-            
-          }
-      });
+      
     }
-  res.send(response);
+  res.end();
 })
 
 
