@@ -9,7 +9,7 @@
   "author": "Vedant Jumle",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "nedb": "^1.8.0"
   }
 }
